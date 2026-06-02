@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>网站内容管理后台 - 春晖门业</title>
+  <link rel="stylesheet" href="ziyuan/style.css">
+</head>
+<body class="upload-body admin-body">
+
+<section class="admin-login" id="admin-login">
+  <div class="admin-login-card">
+    <a href="index.html" class="upload-brand admin-login-brand">
+      <span>春</span>
+      <strong>春晖门业</strong>
+    </a>
+    <p class="section-eyebrow">CONTENT MANAGER</p>
+    <h1>网站内容管理后台</h1>
+    <p class="admin-login-desc">员工登录后即可修改产品、新闻、首页文案、联系方式等内容。正式上线后账号会由服务器验证。</p>
+    <form id="admin-login-form" class="admin-login-form">
+      <label class="upload-field">
+        <span>账号</span>
+        <input type="text" name="username" autocomplete="username" placeholder="请输入账号" required>
+      </label>
+      <label class="upload-field">
+        <span>密码</span>
+        <input type="password" name="password" autocomplete="current-password" placeholder="请输入密码" required>
+      </label>
+      <button type="submit" class="upload-btn upload-btn-primary">登录后台</button>
+      <p class="admin-demo-account">演示账号：admin。演示密码请在本地配置后使用。</p>
+      <p class="admin-login-error" id="admin-login-error"></p>
+    </form>
+  </div>
+</section>
+
+<div class="admin-app" id="admin-app" hidden>
+  <header class="upload-topbar admin-topbar">
+    <a href="index.html" class="upload-brand">
+      <span>春</span>
+      <strong>春晖门业</strong>
+    </a>
+    <div class="upload-topbar-meta">
+      <span id="admin-current-user">内容管理员</span>
+      <button type="button" class="admin-plain-btn" id="admin-export">导出内容数据</button>
+      <button type="button" class="admin-plain-btn" id="admin-logout">退出登录</button>
+      <a href="index.html">返回官网</a>
+    </div>
+  </header>
+
+  <main class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-head">
+        <small>工作台</small>
+        <strong>内容管理</strong>
+      </div>
+      <nav class="admin-menu" aria-label="后台模块">
+        <button type="button" class="active" data-admin-tab="overview">工作台首页</button>
+        <button type="button" data-admin-tab="home">首页内容</button>
+        <button type="button" data-admin-tab="products">产品管理</button>
+        <button type="button" data-admin-tab="news">新闻管理</button>
+        <button type="button" data-admin-tab="about">关于春晖</button>
+        <button type="button" data-admin-tab="join">招商加盟</button>
+        <button type="button" data-admin-tab="contact">联系方式</button>
+      </nav>
+      <div class="admin-sidebar-note">
+        <strong>使用方式</strong>
+        <p>填写内容后先保存草稿，再预览。确认无误后点击发布。当前为前端演示，真实发布需接入后台接口。</p>
+      </div>
+    </aside>
+
+    <section class="admin-main">
+      <section class="upload-hero admin-hero">
+        <div>
+          <p class="section-eyebrow">CHUNHUI CMS</p>
+          <h1>像填表一样维护官网</h1>
+          <p>不需要改代码，不需要处理图片文件名。上传图片、填写文字、预览效果、点击发布，就是日常维护流程。</p>
+        </div>
+        <div class="upload-hero-card">
+          <span>当前状态</span>
+          <strong id="upload-status">已登录</strong>
+          <small>草稿会保存在当前浏览器。正式上线后会保存到服务器数据库。</small>
+        </div>
+      </section>
+
+      <section class="admin-tab active" id="tab-overview">
+        <div class="admin-stat-grid">
+          <button type="button" class="admin-stat-card" data-admin-tab="products">
+            <span>产品管理</span>
+            <strong>上传新品</strong>
+            <small>新增产品、上传图片、生成前台预览</small>
+          </button>
+          <button type="button" class="admin-stat-card" data-admin-tab="news">
+            <span>新闻管理</span>
+            <strong>发布文章</strong>
+            <small>填写标题、封面、摘要和正文</small>
+          </button>
+          <button type="button" class="admin-stat-card" data-admin-tab="contact">
+            <span>联系方式</span>
+            <strong>一键修改</strong>
+            <small>电话、地址、邮箱、联系人统一维护</small>
+          </button>
+        </div>
+
+        <section class="upload-panel">
+          <div class="upload-panel-head">
+            <span>01</span>
+            <div>
+              <h2>今天最常用的操作</h2>
+              <p>给不熟悉电脑的同事准备的快捷入口。</p>
+            </div>
+          </div>
+          <div class="admin-shortcuts">
+            <button type="button" data-admin-tab="products">新增一个产品</button>
+            <button type="button" data-admin-tab="news">发布一条新闻</button>
+            <button type="button" data-admin-tab="home">修改首页文字</button>
+            <button type="button" data-admin-tab="contact">修改联系电话</button>
+          </div>
+        </section>
+
+        <section class="upload-panel">
+          <div class="upload-panel-head">
+            <span>02</span>
+            <div>
+              <h2>最近修改</h2>
+              <p>本演示会记录最近的保存和发布动作。</p>
+            </div>
+          </div>
+          <ul class="admin-activity" id="admin-activity"></ul>
+        </section>
+      </section>
+
+      <section class="admin-tab" id="tab-home">
+        <form class="admin-content-form" data-content-form="home">
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>01</span>
+              <div>
+                <h2>首页主视觉</h2>
+                <p>修改客户打开官网第一眼看到的文字和按钮。</p>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-field">
+                <span>主标题</span>
+                <input name="heroTitle" value="春晖木门">
+              </label>
+              <label class="upload-field">
+                <span>副标题</span>
+                <input name="heroSubtitle" value="专注木门制造 · 意大利德国进口设备 · 畅销国内外">
+              </label>
+              <label class="upload-field">
+                <span>主按钮文字</span>
+                <input name="primaryButton" value="免费预约量房">
+              </label>
+              <label class="upload-field">
+                <span>次按钮文字</span>
+                <input name="secondaryButton" value="查看产品">
+              </label>
+            </div>
+          </section>
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>02</span>
+              <div>
+                <h2>首页图片</h2>
+                <p>上传首页横幅或品牌展示图。系统后续会自动压缩和裁剪。</p>
+              </div>
+            </div>
+            <label class="upload-dropzone admin-dropzone">
+              <input type="file" name="homeImage" accept="image/*">
+              <span>上传首页图片</span>
+              <strong>点击选择或拖入图片</strong>
+              <small>建议横图，适合首页大面积展示</small>
+            </label>
+            <div class="upload-file-preview admin-form-preview"></div>
+          </section>
+        </form>
+      </section>
+
+      <section class="admin-tab" id="tab-products">
+        <section class="upload-workspace admin-product-workspace">
+          <form class="upload-form" id="product-upload-form">
+            <section class="upload-panel">
+              <div class="upload-panel-head">
+                <span>01</span>
+                <div>
+                  <h2>基础信息</h2>
+                  <p>用于产品列表、筛选和详情页标题展示。</p>
+                </div>
+              </div>
+              <div class="upload-grid">
+                <label class="upload-field">
+                  <span>产品名称 *</span>
+                  <input type="text" name="name" placeholder="如：国潮墨影系S036辛格榆木" required>
+                </label>
+                <label class="upload-field">
+                  <span>产品型号</span>
+                  <input type="text" name="model" placeholder="如：S036 / CHA-97 / M9">
+                </label>
+                <label class="upload-field">
+                  <span>产品品类 *</span>
+                  <select name="category" required>
+                    <option value="">请选择</option>
+                    <option>生态门</option>
+                    <option>实木烤漆门</option>
+                    <option>铝木门</option>
+                    <option>玻璃门</option>
+                    <option>其他</option>
+                  </select>
+                </label>
+                <label class="upload-field">
+                  <span>系列名称</span>
+                  <input type="text" name="series" placeholder="如：国潮墨影 / 平雕门 / 橡木深雕">
+                </label>
+                <label class="upload-field">
+                  <span>材质/工艺</span>
+                  <input type="text" name="material" placeholder="如：免漆饰面 / 实木烤漆 / 铝木复合">
+                </label>
+                <label class="upload-field">
+                  <span>价格显示</span>
+                  <input type="text" name="price" value="询价定制">
+                </label>
+                <label class="upload-field">
+                  <span>显示状态</span>
+                  <select name="status">
+                    <option>草稿</option>
+                    <option>待审核</option>
+                    <option>上架展示</option>
+                    <option>暂不展示</option>
+                  </select>
+                </label>
+                <label class="upload-field">
+                  <span>排序权重</span>
+                  <input type="number" name="sort" min="0" placeholder="数字越小越靠前">
+                </label>
+              </div>
+            </section>
+
+            <section class="upload-panel">
+              <div class="upload-panel-head">
+                <span>02</span>
+                <div>
+                  <h2>卖点与参数</h2>
+                  <p>用于详情页说明、搜索筛选和销售人员快速查看。</p>
+                </div>
+              </div>
+              <div class="upload-grid">
+                <label class="upload-field upload-field-wide">
+                  <span>标签</span>
+                  <input type="text" name="tags" placeholder="用逗号分隔，如：国潮系列,健康环保,热销爆款">
+                </label>
+                <label class="upload-field upload-field-wide">
+                  <span>短描述 *</span>
+                  <textarea name="summary" placeholder="一句话说明产品适合什么空间、主打什么优势" required></textarea>
+                </label>
+                <label class="upload-field">
+                  <span>门扇高度</span>
+                  <input type="text" name="height" placeholder="如：2100mm">
+                </label>
+                <label class="upload-field">
+                  <span>门扇宽度</span>
+                  <input type="text" name="width" placeholder="如：900mm">
+                </label>
+                <label class="upload-field">
+                  <span>门扇厚度</span>
+                  <input type="text" name="thickness" placeholder="如：45mm">
+                </label>
+                <label class="upload-field">
+                  <span>适用空间</span>
+                  <input type="text" name="space" placeholder="如：卧室 / 厨卫 / 书房">
+                </label>
+                <label class="upload-field upload-field-wide">
+                  <span>详细说明</span>
+                  <textarea name="detail" placeholder="可补充设计灵感、工艺说明、环保等级、安装建议等"></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="upload-panel">
+              <div class="upload-panel-head">
+                <span>03</span>
+                <div>
+                  <h2>图片与文件</h2>
+                  <p>图片会在本页预览；正式上线后会自动压缩、命名并保存到服务器。</p>
+                </div>
+              </div>
+              <div class="upload-file-grid">
+                <label class="upload-dropzone">
+                  <input type="file" name="images" id="product-images" accept="image/*" multiple>
+                  <span>上传产品图片</span>
+                  <strong>点击选择或拖入图片</strong>
+                  <small>产品主图优先放第一张</small>
+                </label>
+                <label class="upload-dropzone">
+                  <input type="file" name="files" id="product-files" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip" multiple>
+                  <span>上传附件资料</span>
+                  <strong>参数表 / 画册 / 说明书</strong>
+                  <small>支持 PDF、Word、Excel、ZIP</small>
+                </label>
+              </div>
+              <div class="upload-file-preview" id="image-preview"></div>
+              <ul class="upload-file-list" id="file-list"></ul>
+            </section>
+          </form>
+
+          <aside class="upload-preview admin-product-preview">
+            <div class="upload-preview-card">
+              <div class="upload-preview-img" id="preview-main-image">
+                <span>主图预览</span>
+              </div>
+              <div class="upload-preview-body">
+                <small id="preview-category">未选择品类</small>
+                <h2 id="preview-name">产品名称</h2>
+                <p id="preview-summary">填写短描述后，这里会同步显示产品卖点。</p>
+                <div class="upload-preview-tags" id="preview-tags"></div>
+              </div>
+            </div>
+            <div class="upload-json-panel">
+              <div class="upload-json-head">
+                <strong>当前产品数据</strong>
+                <button type="button" id="copy-json">复制</button>
+              </div>
+              <textarea id="json-output" readonly placeholder="点击“生成数据”后显示"></textarea>
+            </div>
+          </aside>
+        </section>
+      </section>
+
+      <section class="admin-tab" id="tab-news">
+        <form class="admin-content-form" data-content-form="news">
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>01</span>
+              <div>
+                <h2>发布新闻</h2>
+                <p>像写公众号文章一样填写标题、封面和正文。</p>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-field">
+                <span>新闻标题</span>
+                <input name="title" placeholder="请输入新闻标题">
+              </label>
+              <label class="upload-field">
+                <span>新闻分类</span>
+                <select name="category">
+                  <option>品牌动态</option>
+                  <option>保养知识</option>
+                  <option>产品资讯</option>
+                  <option>招商动态</option>
+                </select>
+              </label>
+              <label class="upload-field">
+                <span>发布日期</span>
+                <input type="date" name="date">
+              </label>
+              <label class="upload-field">
+                <span>状态</span>
+                <select name="status">
+                  <option>草稿</option>
+                  <option>已发布</option>
+                </select>
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>摘要</span>
+                <textarea name="summary" placeholder="简短说明这条新闻的重点"></textarea>
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>正文</span>
+                <textarea name="content" class="admin-rich-text" placeholder="在这里输入新闻正文，后续可升级为富文本编辑器"></textarea>
+              </label>
+            </div>
+          </section>
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>02</span>
+              <div>
+                <h2>新闻封面</h2>
+                <p>上传后会在新闻列表和详情页顶部显示。</p>
+              </div>
+            </div>
+            <label class="upload-dropzone admin-dropzone">
+              <input type="file" name="cover" accept="image/*">
+              <span>上传封面图</span>
+              <strong>点击选择或拖入图片</strong>
+              <small>建议横图，系统后续会自动压缩</small>
+            </label>
+            <div class="upload-file-preview admin-form-preview"></div>
+          </section>
+        </form>
+      </section>
+
+      <section class="admin-tab" id="tab-about">
+        <form class="admin-content-form" data-content-form="about">
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>01</span>
+              <div>
+                <h2>关于春晖</h2>
+                <p>维护公司介绍、品牌优势和发展历程。</p>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-field upload-field-wide">
+                <span>页面标题</span>
+                <input name="title" value="专注木门制造，品质铸就品牌">
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>公司介绍</span>
+                <textarea name="content">中山春晖门业有限公司坐落在广东中山市，产品质量过硬，设计美观实用，价格合理。</textarea>
+              </label>
+              <label class="upload-field">
+                <span>优势一</span>
+                <input name="highlight1" value="进口设备">
+              </label>
+              <label class="upload-field">
+                <span>优势二</span>
+                <input name="highlight2" value="国际设计">
+              </label>
+              <label class="upload-field">
+                <span>优势三</span>
+                <input name="highlight3" value="品质保证">
+              </label>
+              <label class="upload-field">
+                <span>优势四</span>
+                <input name="highlight4" value="畅销国内外">
+              </label>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <section class="admin-tab" id="tab-join">
+        <form class="admin-content-form" data-content-form="join">
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>01</span>
+              <div>
+                <h2>招商加盟</h2>
+                <p>维护招商文案、加盟优势和扶持政策。</p>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-field upload-field-wide">
+                <span>招商标题</span>
+                <input name="title" value="招商加盟 · 再造100名千万大商">
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>招商说明</span>
+                <textarea name="summary" placeholder="说明加盟优势、扶持政策和合作价值"></textarea>
+              </label>
+              <label class="upload-field">
+                <span>扶持政策一</span>
+                <input name="support1" value="选址指导">
+              </label>
+              <label class="upload-field">
+                <span>扶持政策二</span>
+                <input name="support2" value="开业培训">
+              </label>
+              <label class="upload-field">
+                <span>扶持政策三</span>
+                <input name="support3" value="物料支持">
+              </label>
+              <label class="upload-field">
+                <span>招商电话</span>
+                <input name="phone" value="0760-8820 3678">
+              </label>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <section class="admin-tab" id="tab-contact">
+        <form class="admin-content-form" data-content-form="contact">
+          <section class="upload-panel">
+            <div class="upload-panel-head">
+              <span>01</span>
+              <div>
+                <h2>联系方式</h2>
+                <p>修改后会影响全站联系电话、地址和页脚信息。</p>
+              </div>
+            </div>
+            <div class="upload-grid">
+              <label class="upload-field">
+                <span>公司名称</span>
+                <input name="company" value="中山春晖门业有限公司">
+              </label>
+              <label class="upload-field">
+                <span>联系人</span>
+                <input name="contactPerson" value="司徒春涛">
+              </label>
+              <label class="upload-field">
+                <span>销售热线</span>
+                <input name="salesPhone" value="0760-8820 3678">
+              </label>
+              <label class="upload-field">
+                <span>手机号码</span>
+                <input name="mobilePhone" value="13809689692">
+              </label>
+              <label class="upload-field">
+                <span>邮箱</span>
+                <input name="email" value="7477461@qq.com">
+              </label>
+              <label class="upload-field">
+                <span>服务时间</span>
+                <input name="workHours" value="周一至周日 8:00 - 18:00">
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>总部地址</span>
+                <input name="address" value="广东省中山市五桂山镇龙塘工业大道7号">
+              </label>
+              <label class="upload-field upload-field-wide">
+                <span>备案号</span>
+                <input name="icp" value="粤ICP备2025498719号-1">
+              </label>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <div class="upload-actions admin-actions">
+        <button type="button" class="upload-btn upload-btn-muted" id="save-draft">保存草稿</button>
+        <button type="button" class="upload-btn upload-btn-muted" id="generate-json">生成数据</button>
+        <button type="button" class="upload-btn upload-btn-muted" id="preview-product">预览产品</button>
+        <button type="button" class="upload-btn upload-btn-muted" id="download-json">下载数据</button>
+        <button type="button" class="upload-btn upload-btn-light" id="reset-current">清空当前页</button>
+        <button type="button" class="upload-btn upload-btn-primary" id="publish-current">发布当前内容</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="ziyuan/upload.js"></script>
+</body>
+</html>

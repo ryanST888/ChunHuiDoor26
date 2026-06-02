@@ -1,0 +1,138 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteData } from "@/content/cms";
+import { assetPath } from "@/lib/utils";
+
+const siteData = await getSiteData();
+const { company, contact, productCenter, products, stats } = siteData;
+
+const productGroups = productCenter.navGroups || [];
+const quickFilters = [
+  { title: "按品类", values: productCenter.categories.map(item => item.title) },
+  ...productCenter.filters.slice(1),
+];
+const featuredProducts = products.slice(0, 6);
+---
+
+<BaseLayout active="products" siteData={siteData} title="产品中心" description={productCenter.hero.desc}>
+  <section class="bg-ink pt-36 text-white lg:pt-44">
+    <div class="mx-auto grid w-full max-w-[1500px] items-end gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_520px] lg:px-8 lg:pb-24">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.24em] text-gold">{productCenter.hero.eyebrow}</p>
+        <h1 class="mt-5 font-serif-cn text-5xl font-bold leading-tight tracking-normal sm:text-6xl lg:text-7xl">产品中心</h1>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-white/68 lg:text-lg">{productCenter.hero.desc}</p>
+      </div>
+      <div class="rounded-lg border border-white/15 bg-white/[0.06] p-4 backdrop-blur">
+        <img class="aspect-[4/3] w-full rounded-md object-cover" src={assetPath(productCenter.hero.image)} alt="春晖木门产品空间展示" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-14">
+    <div class="mx-auto grid w-full max-w-[1500px] gap-5 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
+      {productCenter.categories.map(category => (
+        <a class="group overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_18px_54px_rgba(21,17,12,0.08)] transition hover:-translate-y-1 hover:shadow-soft" href={`#${category.title}`}>
+          <span class="grid aspect-[4/3] place-items-center bg-warm p-7">
+            <img class="max-h-full object-contain transition duration-500 group-hover:scale-105" src={assetPath(category.image)} alt={category.title} loading="lazy" />
+          </span>
+          <span class="block p-6">
+            <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{category.count}</span>
+            <strong class="mt-3 block font-serif-cn text-3xl font-bold">{category.title}</strong>
+            <span class="mt-2 block text-sm text-ink/55">{category.subtitle}</span>
+            <span class="mt-4 block text-sm leading-7 text-ink/60">{category.desc}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-white py-20 lg:py-24">
+    <div class="mx-auto grid w-full max-w-[1500px] gap-12 px-4 sm:px-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:px-8">
+      <aside class="lg:sticky lg:top-32 lg:h-fit">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Catalog</p>
+        <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">{productCenter.catalogTitle}</h2>
+        <p class="mt-5 text-base leading-8 text-ink/62">{productCenter.catalogDesc}</p>
+
+        <div class="mt-8 grid gap-4">
+          {quickFilters.map(group => (
+            <div class="rounded-lg border border-ink/10 bg-paper p-5">
+              <strong class="text-sm">{group.title}</strong>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {group.values.map(value => (
+                  <a class="rounded-full border border-ink/10 bg-white px-3 py-2 text-xs font-bold text-ink/62 transition hover:border-clay hover:text-clay" href={`#${value}`}>
+                    {value}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      <div>
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {featuredProducts.map(product => (
+            <article class="group overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_18px_54px_rgba(21,17,12,0.08)] transition hover:-translate-y-1 hover:shadow-lift" id={product.series}>
+              <a class="block" href={`tel:${company.phone}`} aria-label={`咨询${product.name}`}>
+                <span class="grid aspect-[4/3] place-items-center bg-warm p-8">
+                  <img class="max-h-full object-contain transition duration-500 group-hover:scale-105" src={assetPath(product.image)} alt={product.name} loading="lazy" />
+                </span>
+                <span class="block p-6">
+                  <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{product.series}</span>
+                  <strong class="mt-3 block font-serif-cn text-2xl font-bold leading-snug">{product.name}</strong>
+                  <span class="mt-4 block min-h-20 text-sm leading-7 text-ink/58">{product.desc}</span>
+                  <span class="mt-6 flex items-center justify-between gap-4 border-t border-ink/10 pt-5 text-sm font-extrabold">
+                    <span>{product.price}</span>
+                    <span class="text-clay">立即咨询</span>
+                  </span>
+                </span>
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <div class="mt-12 grid gap-5 lg:grid-cols-2">
+          {productGroups.map(group => (
+            <section class="rounded-lg border border-ink/10 bg-paper p-6">
+              <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{group.title}</p>
+              <div class="mt-5 grid gap-3">
+                {group.items.map(item => (
+                  <a class="flex items-center justify-between gap-5 rounded-md bg-white p-4 transition hover:text-clay" href={`#${item.cat}`}>
+                    <span>
+                      <strong class="block text-lg">{item.label}</strong>
+                      <span class="mt-1 block text-sm text-ink/55">{item.desc}</span>
+                    </span>
+                    <span class="text-clay">›</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-white lg:py-24">
+    <div class="mx-auto grid w-full max-w-[1500px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:px-8">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Need Help</p>
+        <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">不确定选哪类门，先按空间需求沟通</h2>
+        <p class="mt-5 max-w-3xl text-base leading-8 text-white/62">{contact.ctaSub}</p>
+      </div>
+      <aside class="rounded-lg border border-white/15 bg-white/[0.06] p-7">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Hotline</p>
+        <a class="mt-4 block font-serif-cn text-4xl font-bold" href={`tel:${company.phone}`}>{company.phone}</a>
+        <p class="mt-4 text-sm leading-7 text-white/58">{contact.workHours}</p>
+        <div class="mt-6 grid grid-cols-2 gap-4">
+          {stats.slice(0, 2).map(item => (
+            <div class="border-t border-white/10 pt-4">
+              <strong class="font-serif-cn text-3xl text-gold">{item.number}</strong>
+              <p class="mt-1 text-xs text-white/55">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

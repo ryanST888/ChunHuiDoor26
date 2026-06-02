@@ -1,0 +1,102 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteData } from "@/content/cms";
+import { assetPath, excerpt } from "@/lib/utils";
+
+const siteData = await getSiteData();
+const { about, company, productCenter, stats } = siteData;
+
+const manufacturingPillars = [
+  { title: "设备", desc: "引入意大利、德国进口生产设备，建立稳定生产基础。" },
+  { title: "设计", desc: "结合国际化审美与中国家庭使用习惯，形成耐看的门型表达。" },
+  { title: "品控", desc: "从材质、饰面、结构到交付细节，持续优化品质管理体系。" },
+];
+---
+
+<BaseLayout active="about" siteData={siteData} title="关于春晖" description={excerpt(about.content, 150)}>
+  <section class="bg-ink pt-36 text-white lg:pt-44">
+    <div class="mx-auto grid w-full max-w-[1500px] items-end gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_500px] lg:px-8 lg:pb-24">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.24em] text-gold">About Chunhui</p>
+        <h1 class="mt-5 font-serif-cn text-5xl font-bold leading-tight tracking-normal sm:text-6xl lg:text-7xl">{about.title}</h1>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-white/68 lg:text-lg">{excerpt(about.content, 220)}</p>
+      </div>
+      <div class="rounded-lg border border-white/15 bg-white/[0.06] p-4 backdrop-blur">
+        <img class="aspect-[4/3] w-full rounded-md object-cover" src={assetPath(productCenter.hero.image)} alt="春晖木门空间展示" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-20 lg:py-24">
+    <div class="mx-auto grid w-full max-w-[1500px] gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_440px] lg:px-8">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Manufacturing</p>
+        <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">制造能力、品质体系与长期服务</h2>
+        <div class="mt-7 space-y-5 text-base leading-8 text-ink/65">
+          {about.content.split("。").filter(Boolean).slice(0, 4).map(sentence => (
+            <p>{sentence}。</p>
+          ))}
+        </div>
+      </div>
+      <aside class="rounded-lg border border-ink/10 bg-white p-6 shadow-soft">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Core Data</p>
+        <div class="mt-6 grid grid-cols-2 gap-4">
+          {stats.map(item => (
+            <div class="rounded-md bg-paper p-5">
+              <strong class="block font-serif-cn text-3xl text-clay">{item.number}</strong>
+              <span class="mt-2 block text-sm text-ink/58">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-white py-20 lg:py-24">
+    <div class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Quality System</p>
+        <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">把品牌承诺落到每一道工序</h2>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {manufacturingPillars.map(item => (
+          <article class="rounded-lg border border-ink/10 bg-paper p-7">
+            <p class="font-serif-cn text-4xl text-clay">{item.title}</p>
+            <p class="mt-5 text-sm leading-7 text-ink/62">{item.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {about.highlights.map(item => (
+          <article class="rounded-lg border border-ink/10 bg-white p-6 shadow-[0_18px_54px_rgba(21,17,12,0.08)]">
+            <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{item.icon}</span>
+            <h3 class="mt-5 font-serif-cn text-2xl font-bold">{item.title}</h3>
+            <p class="mt-4 text-sm leading-7 text-ink/58">{item.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-white lg:py-24">
+    <div class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-10 lg:grid-cols-[360px_minmax(0,1fr)]">
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Timeline</p>
+          <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">发展节点</h2>
+          <p class="mt-5 text-base leading-8 text-white/60">{company.name} 自 {company.founded} 年开始深耕木门制造。</p>
+        </div>
+        <div class="grid gap-4">
+          {about.timeline.map(item => (
+            <article class="grid gap-5 rounded-lg border border-white/12 bg-white/[0.06] p-5 md:grid-cols-[120px_minmax(0,1fr)]">
+              <strong class="font-serif-cn text-4xl text-gold">{item.year}</strong>
+              <p class="text-base leading-8 text-white/68">{item.event}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

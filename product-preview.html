@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>产品前台效果预览 - 春晖门业</title>
+  <link rel="stylesheet" href="ziyuan/style.css">
+</head>
+<body class="preview-body">
+
+<header class="upload-topbar">
+  <a href="product-upload.html" class="upload-brand">
+    <span>春</span>
+    <strong>春晖门业</strong>
+  </a>
+  <div class="upload-topbar-meta">
+    <span>前台效果预览</span>
+    <a href="product-upload.html">返回上传页</a>
+  </div>
+</header>
+
+<main class="preview-page" id="preview-page">
+  <section class="preview-empty" id="preview-empty">
+    <p class="section-eyebrow">PREVIEW</p>
+    <h1>还没有可预览的产品资料</h1>
+    <p>请先回到内部上传页，填写产品信息并点击“预览前台效果”。</p>
+    <a href="product-upload.html" class="btn-red">返回上传页</a>
+  </section>
+
+  <section class="preview-content" id="preview-content" hidden>
+    <div class="preview-note">
+      <span>仅供内部预览</span>
+      <p>此页面不会自动发布到官网。确认效果后，仍需通过后台接口或管理员入库。</p>
+    </div>
+
+    <section class="preview-product-hero">
+      <div class="preview-gallery">
+        <div class="preview-main-img" id="preview-main-img"></div>
+        <div class="preview-thumbs" id="preview-thumbs"></div>
+      </div>
+      <div class="preview-product-copy">
+        <p class="section-eyebrow" id="preview-category">PRODUCT</p>
+        <h1 id="preview-name"></h1>
+        <p class="preview-summary" id="preview-summary"></p>
+        <div class="preview-tags" id="preview-tags"></div>
+        <dl class="preview-specs" id="preview-specs"></dl>
+        <div class="preview-actions">
+          <a href="#preview-contact" class="btn-red">立即咨询</a>
+          <a href="product-upload.html" class="btn-ghost btn-ghost-dark">继续编辑</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-section">
+      <div class="section-header">
+        <p class="section-eyebrow">CATALOG CARD</p>
+        <h2 class="section-title">产品中心卡片效果</h2>
+        <div class="section-title-rule"></div>
+      </div>
+      <div class="preview-card-wrap">
+        <article class="product-card preview-product-card" id="preview-card"></article>
+      </div>
+    </section>
+
+    <section class="preview-section">
+      <div class="section-header">
+        <p class="section-eyebrow">DETAIL</p>
+        <h2 class="section-title">详情页内容效果</h2>
+        <div class="section-title-rule"></div>
+      </div>
+      <div class="preview-detail-copy" id="preview-detail"></div>
+    </section>
+
+    <section class="preview-contact" id="preview-contact">
+      <div>
+        <h2>想要这款产品？</h2>
+        <p>前台正式上线后，这里会进入预约量房或产品咨询流程。</p>
+      </div>
+      <a href="product-upload.html" class="btn-white">返回修改资料</a>
+    </section>
+  </section>
+</main>
+
+<script src="ziyuan/product-preview.js"></script>
+</body>
+</html>

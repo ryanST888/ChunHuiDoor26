@@ -1,0 +1,41 @@
+---
+import AstroFooter from "@/components/AstroFooter.astro";
+import { HeaderIsland } from "@/components/HeaderIsland";
+import type { NavKey, SiteData } from "@/lib/types";
+import "@/styles/global.css";
+
+interface Props {
+  active: NavKey;
+  description?: string;
+  siteData: SiteData;
+  solidHeader?: boolean;
+  title?: string;
+}
+
+const {
+  active,
+  description = "春晖木门官网，专注木门制造、产品展示与招商合作。",
+  siteData,
+  solidHeader = active !== "home",
+  title = "春晖木门",
+} = Astro.props;
+const fullTitle = title === "春晖木门" ? title : `${title} | 春晖木门`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <HeaderIsland active={active} company={siteData.company} nav={siteData.nav} solid={solidHeader} client:load />
+    <main>
+      <slot />
+    </main>
+    <AstroFooter siteData={siteData} />
+  </body>
+</html>

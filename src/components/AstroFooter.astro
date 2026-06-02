@@ -1,0 +1,31 @@
+---
+import type { SiteData } from "@/lib/types";
+
+interface Props {
+  siteData: SiteData;
+}
+
+const { siteData } = Astro.props;
+const { company, nav } = siteData;
+---
+
+<footer class="bg-[#0f0b07] py-14 text-white">
+  <div class="mx-auto grid w-[min(100%-2rem,1500px)] gap-10 lg:grid-cols-[minmax(0,1fr)_auto]">
+    <div>
+      <a class="leading-none" href="/">
+        <span class="block font-serif-cn text-4xl font-black tracking-normal">{company.slogan}</span>
+        <span class="mt-3 block text-[11px] font-bold tracking-[0.24em] text-white/62">静音 · 品质 · 家居</span>
+      </a>
+      <p class="mt-6 max-w-2xl text-base leading-8 text-white/58">{company.name} · {company.address}</p>
+      <nav class="mt-8 flex flex-wrap gap-x-7 gap-y-3 text-sm font-bold text-white/60" aria-label="页脚导航">
+        {nav.map(item => <a class="transition hover:text-gold" href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+    <div>
+      <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-gold">Contact</p>
+      <p class="mt-4 font-serif-cn text-3xl font-bold">{company.phone}</p>
+      <p class="mt-3 text-white/58">{company.email}</p>
+      <p class="mt-6 text-sm text-white/38">{company.icp}</p>
+    </div>
+  </div>
+</footer>

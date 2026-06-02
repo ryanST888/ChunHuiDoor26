@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteData } from "@/content/cms";
+import { assetPath } from "@/lib/utils";
+
+const siteData = await getSiteData();
+const { company, news } = siteData;
+
+const latest = news[0];
+const otherNews = news.slice(1);
+const topics = Array.from(new Set(news.map(item => item.category)));
+---
+
+<BaseLayout active="news" siteData={siteData} title="新闻动态" description="春晖门业品牌资讯、木门保养知识与家居空间趋势。">
+  <section class="bg-ink pt-36 text-white lg:pt-44">
+    <div class="mx-auto grid w-full max-w-[1500px] gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_420px] lg:px-8 lg:pb-24">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.24em] text-gold">Newsroom</p>
+        <h1 class="mt-5 font-serif-cn text-5xl font-bold leading-tight tracking-normal sm:text-6xl lg:text-7xl">新闻动态</h1>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-white/68 lg:text-lg">聚焦春晖门业品牌资讯、木门保养知识与家居空间趋势。</p>
+      </div>
+      <aside class="rounded-lg border border-white/15 bg-white/[0.06] p-6 backdrop-blur">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Topics</p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {topics.map(topic => (
+            <a class="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white/70 transition hover:border-gold hover:text-gold" href={`#${topic}`}>{topic}</a>
+          ))}
+        </div>
+        <p class="mt-8 text-sm leading-7 text-white/56">如需了解产品保养、门店合作与项目案例，可直接联系 {company.phone}。</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-paper py-20 lg:py-24">
+    <div class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+      {latest && (
+        <article class="grid overflow-hidden rounded-lg border border-ink/10 bg-white shadow-soft lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.75fr)]" id={latest.category}>
+          <a class="block bg-warm p-5" href={`tel:${company.phone}`} aria-label={`咨询${latest.title}`}>
+            <img class="aspect-[16/10] h-full w-full rounded-md object-cover" src={assetPath(latest.image)} alt={latest.title} loading="eager" />
+          </a>
+          <div class="p-7 lg:p-10">
+            <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{latest.category} · {latest.date}</p>
+            <h2 class="mt-5 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">{latest.title}</h2>
+            <p class="mt-6 text-base leading-8 text-ink/62">{latest.summary}</p>
+            <a class="mt-8 inline-flex h-12 items-center justify-center rounded-md bg-clay px-6 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#963126]" href={`tel:${company.phone}`}>电话咨询</a>
+          </div>
+        </article>
+      )}
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {otherNews.map(item => (
+          <article class="group overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_18px_54px_rgba(21,17,12,0.08)] transition hover:-translate-y-1 hover:shadow-lift" id={item.category}>
+            <a class="block" href={`tel:${company.phone}`} aria-label={`咨询${item.title}`}>
+              <img class="aspect-[16/10] w-full object-cover transition duration-500 group-hover:scale-[1.03]" src={assetPath(item.image)} alt={item.title} loading="lazy" />
+              <span class="block p-6">
+                <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{item.category} · {item.date}</span>
+                <strong class="mt-4 block font-serif-cn text-2xl font-bold leading-snug">{item.title}</strong>
+                <span class="mt-4 block text-sm leading-7 text-ink/58">{item.summary}</span>
+              </span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,16 @@
+{
+  "name": "chunhui-cms",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "bootstrap": "directus bootstrap",
+    "start": "directus start",
+    "dev": "directus start",
+    "setup:content": "node --import tsx scripts/setup-content.mjs"
+  },
+  "dependencies": {
+    "directus": "9.26.0",
+    "tsx": "^4.21.0"
+  }
+}

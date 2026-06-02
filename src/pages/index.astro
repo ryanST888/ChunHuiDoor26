@@ -1,0 +1,270 @@
+---
+import { ContactFormIsland } from "@/components/ContactFormIsland";
+import { HeroFxIsland } from "@/components/HeroFxIsland";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getSiteData } from "@/content/cms";
+import { assetPath } from "@/lib/utils";
+
+const siteData = await getSiteData();
+const { about, company, contact, news, productCenter, products, stats } = siteData;
+const productHref = (category: string) => `/products/?category=${encodeURIComponent(category)}`;
+const productBySeries = (series: string) => products.find(item => item.series === series);
+const categoryByTitle = (title: string) => productCenter.categories.find(item => item.title === title);
+const imageFor = (series: string, category = series) => productBySeries(series)?.image || categoryByTitle(category)?.image || productCenter.hero.image;
+
+const heroSlides = [
+  {
+    eyebrow: `${company.nameEn} · Since ${company.founded}`,
+    title: company.slogan,
+    desc: company.sloganSub,
+    href: "/products/",
+    cta: "查看产品中心",
+    image: productCenter.hero.image,
+  },
+  {
+    eyebrow: "Product Center",
+    title: "按空间选门",
+    desc: "从卧室静音、客厅门面到厨卫采光，先确认使用场景，再进入产品中心看型号。",
+    href: "/products/",
+    cta: "进入产品中心",
+    image: imageFor("生态门"),
+  },
+  {
+    eyebrow: "Brand Promise",
+    title: "安静、耐用、好看",
+    desc: "用稳定制造能力和长期服务，把木门从单件产品做成家居空间的一部分。",
+    href: "/about/",
+    cta: "了解春晖",
+    image: productCenter.hero.image,
+  },
+  {
+    eyebrow: "Join Us",
+    title: "招商加盟",
+    desc: "面向经销商与合作伙伴，提供产品、门店、培训与运营支持。",
+    href: "/join/",
+    cta: "了解招商合作",
+    image: imageFor("实木烤漆门"),
+  },
+];
+
+const serviceActions = [
+  { title: "预约量尺", desc: "确认门洞、墙厚和开启方向", href: `tel:${company.phone}` },
+  { title: "预约设计", desc: "按户型和风格匹配门型", href: "/products/" },
+  { title: "招商合作", desc: "了解区域合作与门店支持", href: "/join/" },
+];
+
+const productStories = [
+  {
+    eyebrow: "Quiet Living",
+    title: "卧室静音",
+    desc: "把门扇结构、密封和饰面触感放在第一位，适合主卧、儿童房和需要安静休息的空间。",
+    image: imageFor("生态门"),
+    href: productHref("生态门"),
+  },
+  {
+    eyebrow: "Craft Texture",
+    title: "客厅门面",
+    desc: "用木纹、线条和色彩统一过道、背景墙与整屋气质，让门成为空间第一视觉面。",
+    image: imageFor("实木烤漆门"),
+    href: productHref("实木烤漆门"),
+  },
+  {
+    eyebrow: "Light & Clean",
+    title: "厨卫采光",
+    desc: "窄边与玻璃比例兼顾通透和清洁，适合厨房、卫生间、书房与采光过渡区。",
+    image: imageFor("玻璃门"),
+    href: productHref("玻璃门"),
+  },
+  {
+    eyebrow: "Stable Use",
+    title: "防潮抗变",
+    desc: "面向南方潮湿环境，关注同色一体、防潮稳定和长期使用后的整体观感。",
+    image: imageFor("铝木门"),
+    href: productHref("铝木门"),
+  },
+];
+
+const promiseItems = [
+  { title: "进口设备", desc: "意大利、德国进口生产设备，支撑稳定工艺。" },
+  { title: "长期服务", desc: "售前沟通、生产交付、安装售后形成闭环。" },
+  { title: "门店支持", desc: "全国加盟网络覆盖，便于本地咨询与服务。" },
+];
+
+const bottomLinks = [
+  { title: "产品手册", desc: "从品类、系列和型号开始筛选", href: "/products/" },
+  { title: "品牌动态", desc: news[0]?.title || "查看春晖门业最新资讯", href: "/news/" },
+  { title: "合作通道", desc: "了解加盟优势与合作流程", href: "/join/" },
+];
+---
+
+<BaseLayout active="home" siteData={siteData} title="春晖木门" description={company.sloganSub}>
+  <section class="relative h-[400svh] min-h-[2720px] bg-ink text-white" data-hero>
+    <div class="sticky top-0 h-[100svh] min-h-[680px] overflow-hidden">
+      {heroSlides.map((slide, index) => (
+        <div
+          class="absolute inset-0 scale-105 opacity-0 transition duration-700 data-[active=true]:scale-100 data-[active=true]:opacity-100"
+          data-active={index === 0 ? "true" : "false"}
+          data-hero-slide
+        >
+          <img class="h-full w-full object-cover" src={assetPath(slide.image)} alt={`${slide.title} 背景`} loading={index === 0 ? "eager" : "lazy"} />
+        </div>
+      ))}
+      <div class="absolute inset-0 z-10 bg-gradient-to-r from-ink/90 via-ink/45 to-ink/75"></div>
+      <HeroFxIsland slideCount={heroSlides.length} client:only="react" />
+
+      <div class="relative z-30 mx-auto grid min-h-full w-full max-w-[1500px] items-center gap-12 px-4 pt-20 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_420px] lg:px-8 lg:pt-24">
+        <div class="relative min-h-[420px]">
+          {heroSlides.map((slide, index) => (
+            <article
+              class="pointer-events-none absolute inset-x-0 top-0 max-w-3xl translate-y-8 opacity-0 transition duration-700 data-[active=true]:pointer-events-auto data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
+              data-active={index === 0 ? "true" : "false"}
+              data-hero-copy
+            >
+              <p class="text-xs font-extrabold uppercase tracking-[0.26em] text-gold">{slide.eyebrow}</p>
+              <h1 class="mt-5 font-serif-cn text-5xl font-bold leading-tight tracking-normal sm:text-6xl lg:text-7xl">{slide.title}</h1>
+              <p class="mt-6 max-w-2xl text-base leading-8 text-white/72 sm:text-lg">{slide.desc}</p>
+              <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a class="inline-flex h-12 items-center justify-center rounded-md bg-clay px-6 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#963126]" href={slide.href}>{slide.cta}</a>
+                <a class="inline-flex h-12 items-center justify-center rounded-md border border-white/20 bg-white/10 px-6 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-ink" href={`tel:${company.phone}`}>{company.phone}</a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <aside class="hidden rounded-lg border border-white/15 bg-black/25 p-6 backdrop-blur-xl lg:block">
+          <p class="text-xs font-extrabold uppercase tracking-[0.26em] text-gold">Page Entrance</p>
+          <div class="mt-5 grid gap-3">
+            {heroSlides.map((slide, index) => (
+              <button
+                class="flex h-14 w-full items-center justify-between rounded-md border border-white/10 bg-white/[0.04] px-4 text-left text-sm font-extrabold text-white/75 transition data-[active=true]:border-gold data-[active=true]:bg-white data-[active=true]:text-ink"
+                type="button"
+                data-active={index === 0 ? "true" : "false"}
+                data-hero-control
+                data-index={index}
+              >
+                <span>{slide.title}</span>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+              </button>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <div class="absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 items-center gap-7 rounded-full border border-white/15 bg-black/25 px-7 py-4 backdrop-blur-xl md:flex">
+        {stats.map(item => (
+          <div class="text-center">
+            <strong class="block font-serif-cn text-3xl leading-none text-gold">{item.number}</strong>
+            <span class="mt-2 block whitespace-nowrap text-xs text-white/58">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white pt-px">
+    <div class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+      <div class="-mt-14 grid overflow-hidden rounded-lg border border-ink/10 bg-white shadow-soft lg:grid-cols-3">
+        {serviceActions.map((item, index) => (
+          <a class={`group flex min-h-32 items-center justify-between gap-6 p-7 transition hover:bg-paper ${index > 0 ? "border-t border-ink/10 lg:border-l lg:border-t-0" : ""}`} href={item.href}>
+            <span>
+              <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Service</span>
+              <strong class="mt-3 block font-serif-cn text-3xl font-bold">{item.title}</strong>
+              <span class="mt-2 block text-sm text-ink/55">{item.desc}</span>
+            </span>
+            <span class="grid size-11 shrink-0 place-items-center rounded-full border border-ink/10 text-xl text-clay transition group-hover:border-clay group-hover:bg-clay group-hover:text-white">›</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20 lg:py-24">
+    <div class="mx-auto grid w-full max-w-[1500px] gap-12 px-4 sm:px-6 lg:grid-cols-[360px_minmax(0,1fr)] lg:px-8">
+      <div class="lg:sticky lg:top-32 lg:h-fit">
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Product Center</p>
+        <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">按空间和功能，先找到适合的门</h2>
+        <p class="mt-6 text-base leading-8 text-ink/62">首页不重复完整目录，只把用户最常见的使用场景提前摆出来；进入产品中心后再看型号、筛选和细节。</p>
+        <div class="mt-8 grid grid-cols-2 gap-4">
+          {stats.slice(0, 4).map(item => (
+            <div class="border-t border-ink/10 pt-4">
+              <strong class="block font-serif-cn text-3xl text-clay">{item.number}</strong>
+              <span class="mt-1 block text-xs text-ink/55">{item.label}</span>
+            </div>
+          ))}
+        </div>
+        <a class="mt-8 inline-flex h-12 items-center justify-center rounded-md bg-clay px-6 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#963126]" href="/products/">进入产品中心</a>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        {productStories.map((item, index) => (
+          <a class={`group overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_18px_54px_rgba(21,17,12,0.08)] transition hover:-translate-y-1 hover:shadow-lift ${index === 0 ? "md:row-span-2" : ""}`} href={item.href}>
+            <span class={`grid place-items-center bg-warm p-8 ${index === 0 ? "aspect-[4/3]" : "aspect-[16/9]"}`}>
+              <img class="max-h-full object-contain transition duration-500 group-hover:scale-105" src={assetPath(item.image)} alt={item.title} loading="lazy" />
+            </span>
+            <span class="block p-6">
+              <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">{item.eyebrow}</span>
+              <strong class="mt-3 block font-serif-cn text-3xl font-bold">{item.title}</strong>
+              <span class="mt-4 block text-sm leading-7 text-ink/58">{item.desc}</span>
+              <span class="mt-6 inline-flex text-sm font-extrabold text-clay">探索对应产品</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-white lg:py-24">
+    <div class="mx-auto grid w-full max-w-[1500px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_440px] lg:px-8">
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Brand Promise</p>
+        <h2 class="mt-4 max-w-4xl font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-6xl">把安静、耐用和好看，做成每一樘门的基本面</h2>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-white/64">{about.content.slice(0, 108)}……</p>
+        <a class="mt-8 inline-flex h-12 items-center justify-center rounded-md border border-white/20 bg-white/10 px-6 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-ink" href="/about/">了解春晖制造</a>
+      </div>
+      <div class="overflow-hidden rounded-lg border border-white/15 bg-white/[0.06]">
+        <img class="aspect-[4/3] w-full object-cover" src={assetPath(productCenter.hero.image)} alt="春晖木门空间展示" loading="lazy" />
+        <div class="grid gap-5 p-6">
+          {promiseItems.map(item => (
+            <div class="border-b border-white/10 pb-5 last:border-b-0 last:pb-0">
+              <strong class="font-serif-cn text-2xl text-gold">{item.title}</strong>
+              <p class="mt-2 text-sm leading-7 text-white/58">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-20 lg:py-24">
+    <div class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.55fr)]">
+        <div class="rounded-lg bg-white p-7 shadow-soft lg:p-10">
+          <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Measurement & Design</p>
+          <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal lg:text-5xl">先预约沟通，再决定看哪一类门</h2>
+          <p class="mt-5 max-w-2xl text-base leading-8 text-ink/62">把户型、预算、风格和使用习惯说清楚，春晖销售顾问会优先按空间需求给出方向，减少来回筛选时间。</p>
+          <div class="mt-8 grid gap-4 md:grid-cols-4">
+            {["户型", "门洞", "风格", "预算"].map((item, index) => (
+              <div class="rounded-md border border-ink/10 bg-paper p-4">
+                <span class="font-serif-cn text-2xl text-clay">{String(index + 1).padStart(2, "0")}</span>
+                <strong class="mt-5 block text-lg">{item}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <ContactFormIsland client:visible />
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        {bottomLinks.map(item => (
+          <a class="group rounded-lg border border-ink/10 bg-white p-6 shadow-[0_18px_54px_rgba(21,17,12,0.08)] transition hover:-translate-y-1 hover:shadow-soft" href={item.href}>
+            <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-clay">Explore</p>
+            <h3 class="mt-8 font-serif-cn text-3xl font-bold">{item.title}</h3>
+            <p class="mt-3 text-sm leading-7 text-ink/58">{item.desc}</p>
+            <strong class="mt-6 inline-flex text-sm text-clay">了解更多 ›</strong>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
