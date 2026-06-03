@@ -13,6 +13,7 @@ const assetDirectories = [
   "lianxiwomen",
   "xinwendongtai",
   "ziyuan",
+  "consequence",
 ];
 
 const staticFiles = ["data.js", "product-upload.html", "product-preview.html"];
