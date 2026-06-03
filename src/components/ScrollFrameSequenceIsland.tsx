@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 
 interface ScrollFrameSequenceIslandProps {
   basePath?: string;
+  className?: string;
   frameCount: number;
 }
 
@@ -48,7 +49,7 @@ function nearestLoadedFrame(images: Map<number, HTMLImageElement>, target: numbe
   return null;
 }
 
-export function ScrollFrameSequenceIsland({ basePath = "/consequence", frameCount }: ScrollFrameSequenceIslandProps) {
+export function ScrollFrameSequenceIsland({ basePath = "/consequence", className, frameCount }: ScrollFrameSequenceIslandProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -173,5 +174,5 @@ export function ScrollFrameSequenceIsland({ basePath = "/consequence", frameCoun
     };
   }, [basePath, frameCount]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-0 h-full w-full" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className={className || "absolute inset-0 z-0 h-full w-full"} aria-hidden="true" />;
 }

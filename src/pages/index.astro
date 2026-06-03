@@ -179,29 +179,35 @@ const bottomLinks = [
     </div>
   </section>
 
-  <section id="door-structure" class="relative h-[360svh] min-h-[2300px] bg-black text-white" data-sequence-section>
-    <div class="sticky top-0 h-[100svh] min-h-[620px] overflow-hidden bg-black">
-      <img class="absolute inset-0 z-0 h-full w-full object-cover" src="/consequence/frame_000_delay-0.041s.webp" alt="春晖木门结构拆解展示" loading="lazy" />
-      <ScrollFrameSequenceIsland frameCount={192} client:visible />
-      <div class="absolute inset-0 z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.86)_0%,rgba(0,0,0,0.52)_36%,rgba(0,0,0,0.18)_62%,rgba(0,0,0,0.62)_100%)]"></div>
-      <div class="relative z-20 mx-auto flex min-h-full w-full max-w-[1500px] items-end px-4 pb-16 pt-28 sm:px-6 lg:items-center lg:px-8 lg:pb-0">
-        <div class="max-w-2xl">
-          <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-gold">Structure Detail</p>
-          <h2 class="mt-4 font-serif-cn text-4xl font-bold leading-tight tracking-normal sm:text-5xl lg:text-6xl">从内部骨架到成品门面</h2>
-          <p class="mt-6 max-w-xl text-base leading-8 text-white/68 sm:text-lg">连续剖面呈现门套、龙骨、饰面与五金的组合关系，让一樘门的结构、质感和安装逻辑在同一段画面里展开。</p>
-          <div class="mt-8 grid gap-5 border-t border-white/14 pt-6 sm:grid-cols-3">
-            {[
-              ["01", "骨架咬合"],
-              ["02", "饰面成型"],
-              ["03", "五金落位"],
-            ].map(([number, label]) => (
-              <div>
-                <span class="font-serif-cn text-3xl text-gold">{number}</span>
-                <strong class="mt-2 block text-sm font-extrabold text-white/82">{label}</strong>
-              </div>
-            ))}
-          </div>
-        </div>
+  <section id="door-structure" class="relative h-[340svh] min-h-[2200px] bg-[#000000] text-white" data-sequence-section>
+    <div class="sticky top-0 isolate h-[100svh] min-h-[720px] overflow-hidden bg-[#000000]">
+      <div class="absolute inset-y-0 right-0 z-0 w-full lg:w-[76%]">
+        <img class="absolute inset-0 h-full w-full object-cover object-center opacity-85 lg:object-right" src="/consequence/frame_000_delay-0.041s.webp" alt="春晖木门结构拆解展示" loading="lazy" />
+        <ScrollFrameSequenceIsland frameCount={192} className="absolute inset-0 z-0 h-full w-full opacity-95" client:visible />
+      </div>
+      <div class="absolute inset-0 z-10 bg-[linear-gradient(90deg,#000000_0%,#000000_30%,rgba(0,0,0,0.9)_46%,rgba(0,0,0,0.34)_68%,rgba(0,0,0,0.08)_100%)]"></div>
+      <div class="absolute inset-0 z-10 bg-[radial-gradient(circle_at_78%_42%,rgba(205,168,105,0.14),transparent_34%)]"></div>
+
+      <div class="relative z-20 mx-auto flex min-h-full w-full max-w-[1500px] flex-col justify-between px-5 pb-10 pt-28 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 lg:pt-32 xl:px-16">
+        <article class="max-w-[640px] pt-2 lg:pt-10">
+          <p class="text-xs font-bold uppercase tracking-[0.28em] text-[#cda869]">STRUCTURE DETAIL</p>
+          <h2 class="mt-8 max-w-[760px] font-serif-cn text-5xl font-bold leading-[1.08] tracking-normal text-white sm:text-6xl lg:text-7xl xl:text-8xl">匠芯成门</h2>
+          <p class="mt-8 max-w-[450px] text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">以实木内芯为骨，精密龙骨为序，高定饰面为表。让看不见的结构、工艺与材质，在静音、耐用与质感里沉稳呈现。</p>
+        </article>
+
+        <ul class="grid max-w-[900px] grid-cols-3 border-t border-white/12 text-left">
+          {[
+            ["01", "骨架咬合"],
+            ["02", "饰面成型"],
+            ["03", "五金归位"],
+          ].map(([number, label]) => (
+            <li class="group relative min-h-28 border-r border-white/10 py-6 pr-4 last:border-r-0 sm:min-h-32 sm:py-8">
+              <span class="block font-serif-cn text-4xl font-light leading-none text-[#cda869]/88 transition duration-300 group-hover:text-[#e5c382] sm:text-5xl">{number}</span>
+              <strong class="mt-5 block text-sm font-bold tracking-wide text-white transition duration-300 group-hover:text-white sm:text-base">{label}</strong>
+              <span class="absolute left-0 top-0 h-px w-0 bg-[#cda869] transition-all duration-500 ease-out group-hover:w-16"></span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
