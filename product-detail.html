@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="春晖门业产品详情页，展示室内门产品大图、类别系列、适用客户、报价方式、场景建议和同类产品推荐，便于家装、工程、酒店公寓、经销商和装修公司快速选型咨询。">
+  <meta name="keywords" content="春晖门业产品详情,木门产品,生态门,实木烤漆门,铝木门,工程门,室内门定制">
+  <title>产品详情 — 春晖门业</title>
+  <link rel="icon" type="image/png" href="ziyuan/icons/favicon.png">
+  <link rel="stylesheet" href="ziyuan/product-detail.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="春晖门业">
+      <img class="brand-mark" src="ziyuan/images/logo-mark.png" alt="春晖门业">
+      <span class="brand-company">中山市春晖门业</span>
+    </a>
+    <nav class="site-nav" aria-label="产品详情导航">
+      <a href="index.html">首页</a>
+      <a href="product-center.html" class="is-active" aria-current="page">产品中心</a>
+      <a href="guanyuwomen/index.html">关于春晖</a>
+      <a href="xinwendongtai/index.html">新闻案例</a>
+      <a href="lianxiwomen/index.html" class="nav-cta">联系我们</a>
+    </nav>
+  </header>
+
+  <main id="detail-root">
+    <section class="detail-hero">
+      <div class="breadcrumb">
+        <a href="product-center.html">产品中心</a>
+        <span>/</span>
+        <span id="breadcrumb-current">产品详情</span>
+      </div>
+
+      <div class="detail-layout">
+        <div class="product-stage">
+          <div class="product-image-shell">
+            <img id="product-image" alt="">
+          </div>
+        </div>
+
+        <article class="product-info">
+          <p class="eyebrow" id="product-category">PRODUCT DETAIL</p>
+          <h1 id="product-title">产品详情</h1>
+          <p class="product-summary" id="product-summary"></p>
+
+          <div class="tag-row" id="tag-row"></div>
+
+          <div class="decision-strip" id="decision-strip" aria-label="产品选型摘要"></div>
+
+          <div class="action-row">
+            <a class="btn btn-primary" href="lianxiwomen/index.html">咨询该产品</a>
+            <a class="btn btn-secondary" href="product-center.html">返回产品中心</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <p class="eyebrow">SPECIFICATION</p>
+        <h2>选型关键信息</h2>
+        <p class="section-subtitle">查看产品品类、系列、适用场景、可定制项和报价方式，了解该产品是否符合您的家装或项目需求。</p>
+      </div>
+      <div class="spec-grid" id="spec-grid"></div>
+    </section>
+
+    <section class="detail-section two-column">
+      <div class="content-block">
+        <p class="eyebrow">SCENES</p>
+        <h2>适用场景</h2>
+        <div class="scene-list" id="scene-list"></div>
+      </div>
+      <div class="content-block dark">
+        <p class="eyebrow">INQUIRY</p>
+        <h2>获取产品方案</h2>
+        <p>如需确认材质、尺寸、颜色、五金配置、工程数量或交付周期，可以提交需求，由春晖门业根据产品系列和项目条件给出初步建议。</p>
+        <a class="btn btn-light" href="lianxiwomen/index.html">提交需求</a>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading section-heading-row">
+        <div>
+          <p class="eyebrow">RELATED</p>
+          <h2>同类产品推荐</h2>
+        </div>
+        <a href="product-center.html" class="text-link">查看全部产品</a>
+      </div>
+      <div class="related-grid" id="related-grid"></div>
+    </section>
+  </main>
+
+  <section id="not-found" class="not-found" hidden>
+    <h1>没有找到该产品</h1>
+    <p>可能是链接参数缺失或产品清单已更新。</p>
+    <a class="btn btn-primary" href="product-center.html">返回产品中心</a>
+  </section>
+
+  <script src="product-manifest.js"></script>
+  <script src="ziyuan/product-detail.js"></script>
+  <script src="ziyuan/dify-chatbot.js"></script>
+</body>
+</html>
