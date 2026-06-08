@@ -240,7 +240,10 @@ function getFilteredItems() {
     const matchesCategory = state.category === ALL || item.category === state.category;
     const matchesSeries = state.series === ALL || item.series === state.series;
     const haystack = `${item.title} ${item.description} ${item.category} ${item.series}`.toLowerCase();
-    const matchesQuery = !state.query || haystack.includes(state.query);
+    const translatedHaystack = window.CH_I18N
+      ? window.CH_I18N.toEnglish(haystack).toLowerCase()
+      : "";
+    const matchesQuery = !state.query || haystack.includes(state.query) || translatedHaystack.includes(state.query);
     return matchesCategory && matchesSeries && matchesQuery;
   });
 }
