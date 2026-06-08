@@ -4435,8 +4435,33 @@ body.home-page .product-badge {
   background: rgba(104,28,23,0.86);
 }
 
+body.home-page .product-info {
+  background: linear-gradient(to top, rgba(10,8,6,0.94) 0%, rgba(10,8,6,0.68) 56%, rgba(10,8,6,0.18) 100%);
+}
+
 body.home-page .product-series,
-body.home-page .product-enquire,
+body.home-page .product-name,
+body.home-page .product-price {
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.55);
+}
+
+body.home-page .product-desc {
+  color: rgba(255,255,255,0.86);
+  text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+
+body.home-page .product-enquire {
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+
+body.home-page .product-card:hover .product-enquire {
+  color: #fff;
+  border-color: rgba(255,255,255,0.78);
+}
+
 body.home-page .news-link,
 body.home-page .news-cat {
   color: var(--zhu);
